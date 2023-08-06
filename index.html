@@ -1,0 +1,43 @@
+<html>
+    <head>
+        <title>Color Map</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=utf-8" >
+        <link rel="shortcut icon" href="./kiwi-bird.png">
+        <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, maximum-scale=1, user-scalable=no">
+        <link rel="stylesheet" href="index.css" />
+    </head>
+    <body>
+        <div class="switch-checkbox">
+            <label for="mode">学習モード</label>
+            <input type="checkbox" id="mode">
+            <label for="mode">テストモード</label>
+        </div>
+        <input type="button" value="テスト開始" onclick="testStart();"></input>
+        <div>
+            問題: <span id="qCountDisplay"></span><br/>
+            正解: <span id="hitDisplay"></span><br/>
+            ミス: <span id="errorDisplay"></span><br/>
+            スコア: <span id="scoreDisplay">0</span>
+        </div>
+        <div id="timerDisplay"></div>
+        <table id="table">
+            <tr><td class="tdata tdactive" id="p0" onclick="pushed(0);">i</td>
+                <td class="tdata"></td>
+                <td class="tdata"></td>
+                <td class="tdata tdactive" id="p1" onclick="pushed(1);">u</td></tr>
+            <tr><td class="tdata tdactive" id="p2" onclick="pushed(2);">ɪ</td>
+                <td class="tdata"></td>
+                <td class="tdata tdactive" id="p3" onclick="pushed(3);">ʊ</td>
+                <td class="tdata"></td></tr>
+            <tr><td class="tdata tdactive" id="p4" onclick="pushed(4);">e̞</td>
+                <td class="tdata tdactive" id="p5" onclick="pushed(5);">ə</td>
+                <td class="tdata"></td>
+                <td class="tdata tdactive" id="p6" onclick="pushed(6);">ɔ</td></tr>
+            <tr><td class="tdata tdactive" id="p7" onclick="pushed(7);">æ</td>
+                <td class="tdata"></td>
+                <td class="tdata tdactive" id="p8" onclick="pushed(8);">ɑ</td>
+                <td class="tdata tdactive" id="p9" onclick="pushed(9);">ɒ</td></tr>
+        </table>
+        <script src="./scripts/whackAVowel.js"></script>
+    </body>
+</html>
