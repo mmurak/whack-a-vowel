@@ -90,16 +90,16 @@ class GlobalManager {
 */
         ];
         this.soundDict = {
-            "i": "./sounds/i.ogg",
-            "u": "./sounds/u.ogg",
-            "ɪ": "./sounds/ɪ.ogg",
-            "ʊ": "./sounds/ʊ.ogg",
-            "e̞": "./sounds/e̞.ogg",
-            "ə": "./sounds/ə.ogg",
-            "ɔ": "./sounds/ɔ.ogg",
-            "æ": "./sounds/æ.ogg",
-            "ɑ": "./sounds/ɑ.ogg",
-            "ɒ": "./sounds/ɒ.ogg",
+            "i": "./sounds/cfu.mp3",
+            "u": "./sounds/cbr.mp3",
+            "ɪ": "./sounds/ncnfu.mp3",
+            "ʊ": "./sounds/ncnbr.mp3",
+            "e̞": "./sounds/mfu.mp3",
+            "ə": "./sounds/mc.mp3",
+            "ɔ": "./sounds/ombr.mp3",
+            "æ": "./sounds/nofu.mp3",
+            "ɑ": "./sounds/obu.mp3",
+            "ɒ": "./sounds/obr.mp3",
         };
         this.allowance = 3000;
         this.garapon = new GaraponSound(this.soundDict, 10, this.allowance);
