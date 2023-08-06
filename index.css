@@ -1,11 +1,13 @@
 body{
   user-select: none;
+  background-color: #EBF5FB;
 }
 #table{
   table-layout: fixed;
   width: 100%;
   font-family: "Times New Roman";
   font-size: 150%;
+  background-color: white;
 }
 .tdata{
   border: 1px solid #333;
