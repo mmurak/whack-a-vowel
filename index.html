@@ -12,32 +12,33 @@
             <input type="checkbox" id="mode">
             <label for="mode">テストモード</label>
         </div>
-        <input type="button" value="テスト開始" onclick="testStart();"></input>
+        <input type="button" id="testStart" value="テスト開始" onclick="run();"></input>
         <div>
             問題: <span id="qCountDisplay"></span><br/>
             正解: <span id="hitDisplay"></span><br/>
             ミス: <span id="errorDisplay"></span><br/>
             スコア: <span id="scoreDisplay">0</span>
         </div>
-        <div id="timerDisplay"></div>
         <table id="table">
-            <tr><td class="tdata tdactive" id="p0" onclick="pushed(0);">i</td>
+            <tr><td class="tdata tdactive" id="i" onclick="pushed('i');">i</td>
                 <td class="tdata"></td>
                 <td class="tdata"></td>
-                <td class="tdata tdactive" id="p1" onclick="pushed(1);">u</td></tr>
-            <tr><td class="tdata tdactive" id="p2" onclick="pushed(2);">ɪ</td>
+                <td class="tdata tdactive" id="u" onclick="pushed('u');">u</td></tr>
+            <tr><td class="tdata tdactive" id="ɪ" onclick="pushed('ɪ');">ɪ</td>
                 <td class="tdata"></td>
-                <td class="tdata tdactive" id="p3" onclick="pushed(3);">ʊ</td>
+                <td class="tdata tdactive" id="ʊ" onclick="pushed('ʊ');">ʊ</td>
                 <td class="tdata"></td></tr>
-            <tr><td class="tdata tdactive" id="p4" onclick="pushed(4);">e̞</td>
-                <td class="tdata tdactive" id="p5" onclick="pushed(5);">ə</td>
+            <tr><td class="tdata tdactive" id="e̞" onclick="pushed('e̞');">e̞</td>
+                <td class="tdata tdactive" id="ə" onclick="pushed('ə');">ə</td>
                 <td class="tdata"></td>
-                <td class="tdata tdactive" id="p6" onclick="pushed(6);">ɔ</td></tr>
-            <tr><td class="tdata tdactive" id="p7" onclick="pushed(7);">æ</td>
+                <td class="tdata tdactive" id="ɔ" onclick="pushed('ɔ');">ɔ</td></tr>
+            <tr><td class="tdata tdactive" id="æ" onclick="pushed('æ');">æ</td>
                 <td class="tdata"></td>
-                <td class="tdata tdactive" id="p8" onclick="pushed(8);">ɑ</td>
-                <td class="tdata tdactive" id="p9" onclick="pushed(9);">ɒ</td></tr>
+                <td class="tdata tdactive" id="ɑ" onclick="pushed('ɑ');">ɑ</td>
+                <td class="tdata tdactive" id="ɒ" onclick="pushed('ɒ');">ɒ</td></tr>
         </table>
-        <script src="./scripts/whackAVowel.js"></script>
+        <script src="./scripts/GlobalManager.js"></script>
+        <script src="./scripts/Parameters.js"></script>
+        <script src="./scripts/main.js"></script>
     </body>
 </html>
