@@ -15,10 +15,8 @@ const soundArray = [
 const numberOfQuestions = 20;
 const suspensionTimeArray = [
     [0, 999],
-    [5, 1000],
-    [10, 1000],
+    [5, 2000],
+    [10, 1500],
     [15, 1000],
-    [20, 1000],
-    [25, 1000],
-    [999, 1000],
+    [999, 800],
 ];

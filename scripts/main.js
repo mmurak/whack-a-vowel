@@ -47,7 +47,7 @@ function _selectNextAudioIdx() {
 
 function _sustime() {
     let i = 0;
-    while(G.qCounter > suspensionTimeArray[i][0]) {
+    while(G.qCounter >= suspensionTimeArray[i][0]) {
         i++;
     }
     return suspensionTimeArray[i][1];
