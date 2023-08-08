@@ -69,7 +69,7 @@ function nowInTest() {
     G.qCountDisplay.innerHTML = ++G.qCounter;
 //    if (G.answerRights)  buzz.play();
     G.answerRights = true;
-    _bleachTable();
+//    _bleachTable();
     audio.play();
 }  
 
@@ -104,7 +104,7 @@ function pushed(val) {
             G.hitDisplay.innerHTML = ++G.hitCounter;
         } else {
             buzz.play();
-            document.getElementById(G.currentPhoneme).style = "background-color: red";
+//            document.getElementById(G.currentPhoneme).style = "background-color: red";
             G.errorDisplay.innerHTML = ++G.errorCounter;
             G.errorBucket.add(G.currentPhoneme);
         }
