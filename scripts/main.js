@@ -6,7 +6,8 @@ for (let ent of soundArray) {
 }
 
 let audio = new Audio();
-
+let buzz = new Audio();
+buzz.src = soundArray[0][1];
 
 
 // Entry point is here
@@ -62,6 +63,7 @@ function nowInTest() {
     G.currentPhoneme = nextAudio[0];
     audio.src = nextAudio[1];
     G.qCountDisplay.innerHTML = ++G.qCounter;
+//    if (G.answerRights)  buzz.play();
     G.answerRights = true;
     audio.play();
 }  
@@ -96,6 +98,7 @@ function pushed(val) {
         if (val == G.currentPhoneme) {
             G.hitDisplay.innerHTML = ++G.hitCounter;
         } else {
+            buzz.play();
             G.errorDisplay.innerHTML = ++G.errorCounter;
             G.errorBucket.add(G.currentPhoneme);
         }
