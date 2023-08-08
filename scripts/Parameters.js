@@ -12,7 +12,7 @@ const soundArray = [
             ["ɒ", "./sounds/obr.mp3"],
         ];
 
-const numberOfQuestions = 30;
+const numberOfQuestions = 20;
 const suspensionTimeArray = [
     [0, 999],
     [5, 1000],
