@@ -65,6 +65,7 @@ function nextAudio() {
 function nowInTest() {
     let nextAudio = soundArray[_selectNextAudioIdx()];
     G.currentPhoneme = nextAudio[0];
+    console.log(G.currentPhoneme);
     audio.src = nextAudio[1];
     G.qCountDisplay.innerHTML = ++G.qCounter;
 //    if (G.answerRights)  buzz.play();
@@ -100,11 +101,22 @@ function pushed(val) {
     }
     // test mode
     if (G.answerRights) {
+        let rightElem = document.getElementById(G.currentPhoneme);
         if (val == G.currentPhoneme) {
             G.hitDisplay.innerHTML = ++G.hitCounter;
+            rightElem.style = "background-color: #75FF7C";
+            setTimeout(function() {
+                rightElem.style = "background-color: white";
+            }, 100);
         } else {
-            buzz.play();
-//            document.getElementById(G.currentPhoneme).style = "background-color: red";
+//            buzz.play();
+//            rightElem.style = "background-color: green";
+            let clickedElem = document.getElementById(val);
+            clickedElem.style  = "background-color: #FF7C75";
+            setTimeout(function() {
+//                rightElem.style = "background-color: white";
+                clickedElem.style = "background-color: white";
+            }, 100);
             G.errorDisplay.innerHTML = ++G.errorCounter;
             G.errorBucket.add(G.currentPhoneme);
         }
