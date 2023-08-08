@@ -30,13 +30,17 @@ function _resetValues() {
     G.testStart.disabled = true;
     G.scoreDisplayinnerHTML = "";
     G.errorBucket = new Set();
+    _bleachTable();
+}
+
+// 
+function _bleachTable() {
     for (let e of soundArray) {
         if (e[0] =="!") continue;   // skip buzz
         document.getElementById(e[0]).style = "background-color: white";
     }
 }
 
-// 
 function _selectNextAudioIdx() {
     return Math.trunc(Math.random() * (soundArray.length - 1)) + 1;
 }
@@ -65,6 +69,7 @@ function nowInTest() {
     G.qCountDisplay.innerHTML = ++G.qCounter;
 //    if (G.answerRights)  buzz.play();
     G.answerRights = true;
+    _bleachTable();
     audio.play();
 }  
 
@@ -99,6 +104,7 @@ function pushed(val) {
             G.hitDisplay.innerHTML = ++G.hitCounter;
         } else {
             buzz.play();
+            document.getElementById(G.currentPhoneme).style = "background-color: red";
             G.errorDisplay.innerHTML = ++G.errorCounter;
             G.errorBucket.add(G.currentPhoneme);
         }
