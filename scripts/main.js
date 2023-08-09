@@ -2,13 +2,14 @@ let G = new GlobalManager();
 
 let studyDic = {};
 for (let ent of soundArray) {
-    studyDic[ent[0]] = ent[1];
+    let e0 = ent[0];
+    if (!(e0 in studyDic)) {
+        studyDic[e0] = [];
+    }
+    studyDic[e0].push(ent[1]);
 }
 
 let audio = new Audio();
-let buzz = new Audio();
-buzz.src = soundArray[0][1];
-
 
 // Entry point is here
 function run() {
@@ -94,7 +95,7 @@ function cleaningUpProcess() {
 function pushed(val) {
     // lesson mode
     if (G.mode.checked == false) {
-        audio.src = studyDic[val];
+        audio.src = studyDic[val][0];
         audio.onended = null;
         audio.play();
         return;
