@@ -1,126 +1,144 @@
 let G = new GlobalManager();
 
+let qa;
+let finderArray;
+
 let studyDic = {};
+let interactiveDic = {};
 for (let ent of soundArray) {
     let e0 = ent[0];
     if (!(e0 in studyDic)) {
         studyDic[e0] = [];
+        interactiveDic[e0] = []
     }
-    studyDic[e0].push(ent[1]);
+    studyDic[e0].push([e0, ent[1]]);
+    interactiveDic[e0].push(ent[1]);
 }
 
-let audio = new Audio();
-
-// Entry point is here
 function run() {
-    _resetValues();
-    // just buzz and wait for end event
-    audio.src = soundArray[0][1];
-    audio.onended = nextAudio;
-    audio.play();
+    whacker.playPhonemes([0, ["", "./sounds/buzzer.mp3"]], realStart, G.dummy);
 }
 
-//
+function realStart() {
+    _resetValues();
+    qa = makeQArray();
+    makeFinderArray(qa);
+    debugDisplay();
+    whacker.playPhonemes(qa, finished, G.qCountDisplay);
+}
+
+function makeFinderArray(qa) {
+    finderArray = [];
+    let idx = 0;
+    for (let e of qa) {
+        if (Array.isArray(e)) {
+            finderArray.push([e[0], ""]);
+        } else {
+            finderArray.push(idx++);
+        }
+    }
+}
+
+function debugDisplay() {
+    let res = [];
+    for (let i of finderArray) {
+        if (Array.isArray(i)) {
+            res.push(i[0] + ":" + i[1]);
+        }
+    }
+    console.log(res.join(", "));
+}
+
+function finished() {
+    whacker.playPhonemes([0, ["", "./sounds/buzzer.mp3"]], nullCallback, G.dummy);
+    G.inTest = false;
+    G.mode.disabled = false;
+    G.mode.options[0].selected = true;
+}
+
+function nullCallback() {
+    _bleachTable();
+}
+
+function findSuspensionTime(n) {
+    let t = 0;
+    while(n >= suspensionTimeArray[t][0]) {
+        t++;
+    }
+    return suspensionTimeArray[t][1];
+}
+
+function makeQArray() {
+    let qarray = [];
+    qarray.push(1000);      // first suspension time
+    for (let i = 0; i < numberOfQuestions; i++) {
+        qarray.push(soundArray[Math.trunc(Math.random()*soundArray.length)]);
+        qarray.push(findSuspensionTime(i));
+    }
+    qarray.push(1000);      // last suspension time
+    return qarray;
+}
+
+function pushed(c) {
+    let pushedElement = document.getElementById(c);
+    // 学習モード
+    if (G.mode.value == "S") {
+        let qarray = [studyDic[c][0]];
+        pushedElement.style = "background-color: #75FF7C";
+        whacker.playPhonemes(qarray, nullCallback, G.qCounter);
+        return;
+    } else if (G.mode.value == "F") {
+        let qarray = studyDic[c];
+        pushedElement.style = "background-color: #75FF7C";
+        whacker.playPhonemes(qarray, nullCallback, G.qCounter);
+        return;
+    } else if ((G.mode.value == "X") && (!G.inTest)) {
+        G.inTest = true;
+        run();
+        return;
+    }
+    // テストモード
+    let i = whacker.currentPointer();
+let sss = i;
+    let limit = (i >= G.allowance) ? i - G.allowance : 0;
+    while(i >= limit) {
+        if (Array.isArray(finderArray[i])) {
+            if (finderArray[i][1] == "X") {
+                i = -1;
+                break;
+            }
+            if (c == finderArray[i][0]) {
+                finderArray[i][1] = "X";
+                break;
+            }
+        }
+        i--;
+    }
+    if (i >= limit) {
+        G.hitDisplay.innerHTML = ++G.hitCounter;
+        pushedElement.style = "background-color: #75FF7C";
+        setTimeout(function() {
+            pushedElement.style = "background-color: white";
+        }, 100);
+    } else {
+        pushedElement.style = "background-color: #FF7C75";
+        setTimeout(function() {
+            pushedElement.style = "background-color: white";
+        }, 100);
+    }
+}
+
 function _resetValues() {
     G.qCounter = 0;
     G.qCountDisplay.innerHTML = "";
     G.hitDisplay.innerHTML = G.hitCounter = 0;
-    G.errorDisplay.innerHTML = G.errorCounter = 0;
     G.mode.checked = true;
     G.mode.disabled = true;
-    G.testStart.disabled = true;
-    G.scoreDisplayinnerHTML = "";
-    G.errorBucket = new Set();
     _bleachTable();
 }
 
-// 
 function _bleachTable() {
     for (let e of soundArray) {
-        if (e[0] =="!") continue;   // skip buzz
         document.getElementById(e[0]).style = "background-color: white";
     }
-}
-
-function _selectNextAudioIdx() {
-    return Math.trunc(Math.random() * (soundArray.length - 1)) + 1;
-}
-
-function _sustime() {
-    let i = 0;
-    while(G.qCounter >= suspensionTimeArray[i][0]) {
-        i++;
-    }
-    return suspensionTimeArray[i][1];
-}
-
-// Audio event raised (on-ended)
-function nextAudio() {
-    if (G.qCounter < numberOfQuestions) {
-        setTimeout(nowInTest, _sustime());
-    } else {
-        setTimeout(cleaningUpProcess, _sustime());
-    }
-}
-
-function nowInTest() {
-    let nextAudio = soundArray[_selectNextAudioIdx()];
-    G.currentPhoneme = nextAudio[0];
-    console.log(G.currentPhoneme);
-    audio.src = nextAudio[1];
-    G.qCountDisplay.innerHTML = ++G.qCounter;
-//    if (G.answerRights)  buzz.play();
-    G.answerRights = true;
-//    _bleachTable();
-    audio.play();
-}  
-
-function cleaningUpProcess() {
-    audio.onended = null;
-    audio.src = soundArray[0][1];   // finishing buzz
-    audio.play();
-    G.answerRights = false;
-    let missedOnes = Array.from(G.errorBucket);
-    for (let o of missedOnes) {
-        let elem = document.getElementById(o);
-        elem.style = "background-color: #F9EBEA";
-    }
-    G.scoreDisplay.innerHTML = Math.round((G.hitCounter - (G.errorCounter / 2.0)) / G.qCounter * 10000.0) / 100.0;
-    G.mode.disabled = false;
-    G.testStart.disabled = false;
-}
-
-
-
-function pushed(val) {
-    // lesson mode
-    if (G.mode.checked == false) {
-        audio.src = studyDic[val][0];
-        audio.onended = null;
-        audio.play();
-        return;
-    }
-    // test mode
-    if (G.answerRights) {
-        let rightElem = document.getElementById(G.currentPhoneme);
-        if (val == G.currentPhoneme) {
-            G.hitDisplay.innerHTML = ++G.hitCounter;
-            rightElem.style = "background-color: #75FF7C";
-            setTimeout(function() {
-                rightElem.style = "background-color: white";
-            }, 100);
-        } else {
-//            buzz.play();
-//            rightElem.style = "background-color: green";
-            let clickedElem = document.getElementById(val);
-            clickedElem.style  = "background-color: #FF7C75";
-            setTimeout(function() {
-//                rightElem.style = "background-color: white";
-                clickedElem.style = "background-color: white";
-            }, 100);
-            G.errorDisplay.innerHTML = ++G.errorCounter;
-            G.errorBucket.add(G.currentPhoneme);
-        }
-    }
-    G.answerRights = false;
 }

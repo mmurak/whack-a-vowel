@@ -7,17 +7,14 @@
         <link rel="stylesheet" href="index.css" />
     </head>
     <body>
-        <div class="switch-checkbox">
-            <label for="mode">学習モード</label>
-            <input type="checkbox" id="mode">
-            <label for="mode">テストモード</label>
-        </div>
-        <input type="button" id="testStart" value="テスト開始" onclick="run();"></input>
+        <select id="mode">
+            <option value="S" selected>学習モード（short）</option>
+            <option value="F" >学習モード（full）</option>
+            <option value="X" >テスト（ﾊﾟﾈﾙｸﾘｯｸでｽﾀｰﾄ）</option>
+        </select>
         <div>
-            問題: <span id="qCountDisplay"></span><br/>
+            問題: <span id="qCountDisplay"></span><div id="dummy" hidden></div><br/>
             正解: <span id="hitDisplay"></span><br/>
-            ミス: <span id="errorDisplay"></span><br/>
-            スコア: <span id="scoreDisplay">0</span>
         </div>
         <table id="table">
             <tr><td class="tdata tdactive" id="i" onclick="pushed('i');">i</td>
@@ -37,7 +34,9 @@
                 <td class="tdata tdactive" id="ɑ" onclick="pushed('ɑ');">ɑ</td>
                 <td class="tdata tdactive" id="ɒ" onclick="pushed('ɒ');">ɒ</td></tr>
         </table>
+        <div style="position: fixed; bottom: 0">音源提供：<a href="https://twitter.com/TakeshiMuramats" target="_blank"">音バカ村松</a>氏（<a href="https://www.youtube.com/channel/UCE1bIM_hLv6PUVNNKG1Uo8A"  target="_blank">YouTubeチャンネル</a>）</div>
         <script src="./scripts/GlobalManager.js"></script>
+        <script src="./scripts/sequencer.js"></script>
         <script src="./scripts/Parameters.js"></script>
         <script src="./scripts/main.js"></script>
     </body>
